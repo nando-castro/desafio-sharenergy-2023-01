@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../components/button/Button";
 import Input from "../components/input/Input";
+import Loader from "../components/loading/Loader";
 import { api } from "../services/api";
 
 export function Register(){
@@ -43,6 +44,13 @@ export function Register(){
           <Link to="/"> Ja possui cadastro? Faca login</Link>
         </span>
       </Form>
+      {loading ? (
+          <>
+            <Loader />
+          </>
+        ) : (
+          <></>
+        )}
     </Container>
     );
 }
