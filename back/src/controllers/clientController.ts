@@ -7,7 +7,7 @@ export async function createClient(req: Request, res: Response) {
 
   const token = authorization?.replace("Bearer ", "");
 
-  const session = await db.collecton("sessions").findOnde({ token });
+  const session = await db.collection("sessions").findOne({ token });
 
   if (!session) {
     return res.sendStatus(401);
@@ -19,10 +19,7 @@ export async function createClient(req: Request, res: Response) {
 export async function getClients(req: Request, res: Response) {
   const session = res.locals.session;
 
-  const clients = await db
-    .collection("clients")
-    .find({ userId: session.userId })
-    .toArray();
+  const clients = await db.collection("clients").find().toArray();
 
   res.status(200).send(clients);
 }
@@ -42,6 +39,8 @@ export async function updateClient(req: Request, res: Response) {
     await db
       .collection("clients")
       .updateOne({ _id: client._id }, { $set: req.body });
+
+    res.sendStatus(200);
   } catch (error) {
     res.sendStatus(500);
   }

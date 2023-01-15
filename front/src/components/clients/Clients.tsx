@@ -2,9 +2,20 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { MdDelete, MdEdit, MdAddCircle } from "react-icons/md";
 import { api } from "../../services/api";
+import FormClient from "../form/FormClient";
+import Loader from "../loading/Loader";
 
 export default function Clients() {
+  const [text, setText] = useState(false);
   const [clients, setClients] = useState([]);
+  const [clientUpdate, setClientUpdate] = useState({
+    name: "",
+    email: "",
+  });
+  const [method, setMethod] = useState(true);
+  const [update, setUpdate] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [addClient, setAddClient] = useState(false);
   const { token } = JSON.parse(localStorage.getItem("userLogged"));
 
   const CONFIG = {
@@ -14,37 +25,104 @@ export default function Clients() {
   };
 
   useEffect(() => {
-    api
-      .get("/clients", CONFIG)
-      .then((res) => {
-        console.log(res.data);
-        setClients(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    async function getClients() {
+      await api
+        .get("/clients", CONFIG)
+        .then((res) => {
+          setClients(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    getClients();
+  }, [update]);
+
+  const handleCancel = () => {
+    setMethod(true);
+    setAddClient(false);
+  };
+
+  const handleDelete = (id: string) => {
+    setLoading(true);
+
+    const response = window.confirm(
+      "Voce tem certeza que gostaria de apagar o registro do cliente?"
+    );
+
+    if (response === true) {
+      api
+        .delete(`/client/${id}`, CONFIG)
+        .then((res) => {
+          setUpdate(!update);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+        });
+    }
+    setLoading(false);
+  };
+
+  const handleUpdate = (
+    _id: string,
+    name: string,
+    email: string,
+    phone: string,
+    street: string,
+    number: string,
+    city: string,
+    state: string,
+    cpf: string
+  ) => {
+    setMethod(false);
+    setClientUpdate({
+      id: _id,
+      name: name,
+      email: email,
+      phone: phone,
+      street: street,
+      number: number,
+      city: city,
+      state: state,
+      cpf: cpf,
+    });
+    setText(true);
+    setAddClient(true);
+  };
 
   const renderUsers = () => {
     return clients.map((i: any) => (
-      <Content key={i.id.value}>
+      <Content key={i._id}>
         <div>
-          <span>
-            Nome: {i.name.first} {i.name.last}
-          </span>
+          <p>Nome: {i.name}</p>
           <p>Email: {i.email}</p>
           <p>Telefone: {i.phone}</p>
           <p>
-            Endereço: {i.location.street.name}, {i.location.street.number},
-            {i.location.city} - {i.location.state}
+            Endereço: {i.street}, {i.number}, {i.city} - {i.state}
           </p>
-          <p>CPF: {i.cell}</p>
+          <p>CPF: {i.cpf}</p>
         </div>
         <main>
-          <div>
+          <div
+            onClick={() =>
+              handleUpdate(
+                i._id,
+                i.name,
+                i.email,
+                i.phone,
+                i.street,
+                i.number,
+                i.city,
+                i.state,
+                i.cpf
+              )
+            }
+          >
             Editar <MdEdit className="icon edit" />
           </div>
-          <div>
+          <div onClick={() => handleDelete(i._id)}>
             Excluir <MdDelete className="icon remove" />
           </div>
         </main>
@@ -53,10 +131,33 @@ export default function Clients() {
   };
   return (
     <Container>
-      {clients.length > 0 ? renderUsers() : <div>Carregando...</div>}
-      <span>
-        Adicionar Cliente <MdAddCircle className="icon add" />
-      </span>
+      {!addClient ? (
+        <span onClick={() => setAddClient(true)}>
+          Adicionar Cliente <MdAddCircle className="icon add" />
+        </span>
+      ) : (
+        <>
+          <span className="cancel" onClick={handleCancel}>
+            Cancelar
+          </span>
+          <h1>{text ? "Atualizar dados do cliente" : "Cadastro de cliente"}</h1>
+        </>
+      )}
+      {clients.length > 0 && addClient === false ? (
+        renderUsers()
+      ) : addClient === false ? (
+        <div>Não há usuários cadastrados</div>
+      ) : (
+        <FormClient
+          setAddClient={setAddClient}
+          update={update}
+          setUpdate={setUpdate}
+          method={method}
+          setMethod={setMethod}
+          clientUpdate={clientUpdate}
+        />
+      )}
+      {loading === true ? <Loader /> : <></>}
     </Container>
   );
 }
@@ -68,6 +169,7 @@ const Container = styled.main`
   padding: 20px;
 
   display: flex;
+  align-items: center;
   flex-direction: column;
 
   overflow-y: scroll;
@@ -84,6 +186,7 @@ const Container = styled.main`
     align-items: center;
     justify-content: center;
 
+    margin-bottom: 20px;
     font-size: 16px;
 
     border: 1px solid #000;
@@ -107,6 +210,10 @@ const Container = styled.main`
 
   .edit {
     color: #ffa500;
+  }
+
+  .cancel {
+    background-color: #ccc;
   }
 `;
 

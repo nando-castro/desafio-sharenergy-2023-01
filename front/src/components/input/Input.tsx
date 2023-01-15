@@ -6,12 +6,13 @@ export default function Input({
   width,
   height,
   type,
+  maxLength,
   disabled,
   placeholder,
   value,
   name,
   onChange,
-}:  any) {
+}: any) {
   const [hidden, setHidden] = useState(true);
   function hiddenPassword(e: any) {
     e.preventDefault();
@@ -26,6 +27,7 @@ export default function Input({
             height={height}
             disabled={disabled}
             type={hidden === true ? "password" : "text"}
+            maxLength={maxLength}
             placeholder={placeholder}
             value={value}
             name={name}
@@ -43,6 +45,7 @@ export default function Input({
             width={width}
             height={height}
             disabled={disabled}
+            maxLength={maxLength}
             type={type}
             placeholder={placeholder}
             value={value}

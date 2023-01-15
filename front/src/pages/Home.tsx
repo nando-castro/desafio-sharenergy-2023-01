@@ -28,7 +28,7 @@ export function Home() {
           <Card text={"HTTP Cat"} action={() => setSelected("cats")} />
           <Card text={"Random Dog"} action={() => setSelected("dogs")} />
           <Card
-            text={"CRUD Users"}
+            text={"CRUD Clientes"}
             radius={"0 0 50px 8px"}
             action={() => setSelected("clients")}
           />
