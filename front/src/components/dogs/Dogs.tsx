@@ -23,16 +23,22 @@ export default function Dogs() {
 
   return (
     <Container>
-      {regex.test(image) ? (
-        <video className="view" width="100%" height="100%" autoPlay muted>
-          <source src={image} type="video/mp4" />
-        </video>
+      {image.length > 0 ? (
+        <>
+          {regex.test(image) ? (
+            <video className="view" width="100%" height="100%" autoPlay muted>
+              <source src={image} type="video/mp4" />
+            </video>
+          ) : (
+            <img className="view" src={image} alt="cachorro fofinho" />
+          )}
+          <button onClick={() => setUpdate(!update)}>
+            <BiRefresh /> Recarregar
+          </button>
+        </>
       ) : (
-        <img className="view" src={image} alt="cachorro fofinho" />
+        <div>Carregando...</div>
       )}
-      <button onClick={() => setUpdate(!update)}>
-        <BiRefresh /> Recarregar
-      </button>
     </Container>
   );
 }

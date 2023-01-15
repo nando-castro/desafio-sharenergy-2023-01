@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { db } from "../databases/mongodb";
+import jwt from "jsonwebtoken";
 
 async function validateUser(req: Request, res: Response, next: NextFunction) {
   const { authorization } = req.headers;
