@@ -12,17 +12,18 @@ export default function Form({
   clientUpdate,
   method,
   setMethod,
+  setClientUpdate,
 }: any) {
   const [loading, setLoading] = useState(false);
   const [client, setClient] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    street: "",
-    number: "",
-    city: "",
-    state: "",
-    cpf: "",
+    name: clientUpdate.name,
+    email: clientUpdate.email,
+    phone: clientUpdate.phone,
+    street: clientUpdate.street,
+    number: clientUpdate.number,
+    city: clientUpdate.city,
+    state: clientUpdate.state,
+    cpf: clientUpdate.cpf,
   });
 
   const { token } = JSON.parse(localStorage.getItem("userLogged"));
@@ -34,10 +35,6 @@ export default function Form({
   };
 
   function changeInput(e: any) {
-    setClient({ ...client, [e.target.name]: e.target.value });
-  }
-
-  function changeInputUpdate(e: any) {
     setClient({ ...client, [e.target.name]: e.target.value });
   }
 
@@ -65,9 +62,9 @@ export default function Form({
     api
       .put(`/client/${clientUpdate.id}`, { ...client }, CONFIG)
       .then((res) => {
-        console.log(res.data);
+        setClientUpdate({});
         setUpdate(!update);
-        setMethod(false);
+        setMethod(true);
         setAddClient(false);
         setLoading(false);
       })
@@ -80,75 +77,82 @@ export default function Form({
   return (
     <>
       <Container>
+        <Input
+          height={"30px"}
+          type={"text"}
+          placeholder={"Nome"}
+          value={client.name}
+          name={"name"}
+          onChange={changeInput}
+        />
+        <Input
+          height={"30px"}
+          type={"text"}
+          placeholder={"Email"}
+          value={client.email}
+          name={"email"}
+          onChange={changeInput}
+        />
+        <Input
+          height={"30px"}
+          type={"text"}
+          placeholder={"phone"}
+          data-ls-module="charCounter"
+          maxLength={11}
+          value={client.phone}
+          name={"phone"}
+          onChange={changeInput}
+        />
+        <Input
+          height={"30px"}
+          type={"text"}
+          placeholder={"CPF"}
+          data-ls-module="charCounter"
+          maxLength={11}
+          value={client.cpf}
+          name={"cpf"}
+          onChange={changeInput}
+        />
         <div>
           <Input
-            type={"text"}
-            placeholder={"Nome"}
-            value={client.name || clientUpdate.name}
-            name={"name"}
-            onChange={changeInput || changeInputUpdate}
-          />
-          <Input
-            type={"text"}
-            placeholder={"Email"}
-            value={client.email || clientUpdate.email}
-            name={"email"}
-            onChange={changeInput || changeInputUpdate}
-          />
-          <Input
-            type={"text"}
-            placeholder={"phone"}
-            data-ls-module="charCounter"
-            maxLength={11}
-            value={client.phone || clientUpdate.phone}
-            name={"phone"}
-            onChange={changeInput || changeInputUpdate}
-          />
-          <Input
-            type={"text"}
-            placeholder={"CPF"}
-            data-ls-module="charCounter"
-            maxLength={11}
-            value={client.cpf || clientUpdate.cpf}
-            name={"cpf"}
-            onChange={changeInput || changeInputUpdate}
-          />
-        </div>
-        <div>
-          <Input
+            width={"210px"}
+            height={"30px"}
             type={"text"}
             placeholder={"Rua"}
-            value={client.street || clientUpdate.street}
+            value={client.street}
             name={"street"}
-            onChange={changeInput || changeInputUpdate}
+            onChange={changeInput}
           />
           <Input
             width={"120px"}
+            height={"30px"}
             type={"text"}
             placeholder={"Numero"}
             data-ls-module="charCounter"
             maxLength={5}
-            value={client.number || clientUpdate.number}
+            value={client.number}
             name={"number"}
-            onChange={changeInput || changeInputUpdate}
-          />
-          <Input
-            type={"text"}
-            placeholder={"Cidade"}
-            value={client.city || clientUpdate.city}
-            name={"city"}
-            onChange={changeInput || changeInputUpdate}
-          />
-          <Input
-            type={"text"}
-            placeholder={"Estado"}
-            value={client.state || clientUpdate.state}
-            name={"state"}
-            onChange={changeInput || changeInputUpdate}
+            onChange={changeInput}
           />
         </div>
+        <Input
+          height={"30px"}
+          type={"text"}
+          placeholder={"Cidade"}
+          value={client.city}
+          name={"city"}
+          onChange={changeInput}
+        />
+        <Input
+          height={"30px"}
+          type={"text"}
+          placeholder={"Estado"}
+          value={client.state}
+          name={"state"}
+          onChange={changeInput}
+        />
       </Container>
-      {method === true ? (
+      {method ? (
         <Button
           type={"submit"}
           text={"Cadastrar"}
@@ -175,8 +179,9 @@ const Container = styled.form`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 
   div {
-    margin: 20px;
+    display: flex;
   }
 `;

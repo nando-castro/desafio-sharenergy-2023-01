@@ -54,6 +54,10 @@ const Container = styled.main`
   ::-webkit-scrollbar {
     display: none;
   }
+
+  @media (max-width: 1780px) {
+    justify-content: center;
+  }
 `;
 
 const User = styled.div`

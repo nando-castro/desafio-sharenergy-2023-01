@@ -14,7 +14,6 @@ const Container = styled.button`
   width: 326px;
   height: 46px;
   padding: 10px;
-  margin-top: 20px;
 
   background: rgba(96, 255, 255, 0.74);
   border-radius: 5px;

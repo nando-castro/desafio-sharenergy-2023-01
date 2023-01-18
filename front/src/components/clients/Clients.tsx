@@ -44,6 +44,11 @@ export default function Clients() {
     setAddClient(false);
   };
 
+  const handleAdd = () => {
+    setText(false);
+    setAddClient(true);
+  };
+
   const handleDelete = (id: string) => {
     setLoading(true);
 
@@ -132,15 +137,21 @@ export default function Clients() {
   return (
     <Container>
       {!addClient ? (
-        <span onClick={() => setAddClient(true)}>
-          Adicionar Cliente <MdAddCircle className="icon add" />
+        <span>
+          <button onClick={handleAdd}>
+            Adicionar Cliente <MdAddCircle className="icon add" />
+          </button>
         </span>
       ) : (
         <>
-          <span className="cancel" onClick={handleCancel}>
-            Cancelar
+          <span>
+            <h1>
+              {text ? "Atualizar dados do cliente" : "Cadastro de cliente"}
+            </h1>
+            <button className="cancel" onClick={handleCancel}>
+              Cancelar
+            </button>
           </span>
-          <h1>{text ? "Atualizar dados do cliente" : "Cadastro de cliente"}</h1>
         </>
       )}
       {clients.length > 0 && addClient === false ? (
@@ -155,6 +166,7 @@ export default function Clients() {
           method={method}
           setMethod={setMethod}
           clientUpdate={clientUpdate}
+          setClientUpdate={setClientUpdate}
         />
       )}
       {loading === true ? <Loader /> : <></>}
@@ -179,20 +191,30 @@ const Container = styled.main`
   }
 
   span {
-    width: 200px;
-    height: 50px;
+    width: 100%;
+    height: 40px;
 
     display: flex;
     align-items: center;
-    justify-content: center;
-
-    margin-bottom: 20px;
-    font-size: 16px;
-
-    border: 1px solid #000;
-    border-radius: 50px;
+    justify-content: space-evenly;
 
     cursor: pointer;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+
+      margin-bottom: 20px;
+      font-size: 16px;
+
+      border: 1px solid #000;
+      border-radius: 50px;
+
+      padding: 5px;
+    }
   }
 
   .icon {
@@ -214,6 +236,13 @@ const Container = styled.main`
 
   .cancel {
     background-color: #ccc;
+    margin-bottom: 20px;
+    font-size: 16px;
+
+    border: 1px solid #000;
+    border-radius: 50px;
+
+    padding: 5px;
   }
 `;
 

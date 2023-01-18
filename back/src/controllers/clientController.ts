@@ -26,6 +26,7 @@ export async function getClients(req: Request, res: Response) {
 export async function updateClient(req: Request, res: Response) {
   const id = req.params.id;
   const data = req.body;
+  console.log(data);
 
   try {
     const client = await db
