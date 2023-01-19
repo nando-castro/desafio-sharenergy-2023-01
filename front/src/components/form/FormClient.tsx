@@ -45,6 +45,7 @@ export default function Form({
     api
       .post("/client", { ...client }, CONFIG)
       .then((res) => {
+        setClientUpdate({});
         setAddClient(false);
         setUpdate(!update);
         setLoading(false);

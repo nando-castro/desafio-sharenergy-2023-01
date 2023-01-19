@@ -135,10 +135,14 @@ export default function Clients() {
               )
             }
           >
-            Editar <MdEdit className="icon edit" />
+            <button>
+              Editar <MdEdit className="icon edit" />
+            </button>
           </div>
           <div onClick={() => handleDelete(i._id)}>
-            Excluir <MdDelete className="icon remove" />
+            <button>
+              Excluir <MdDelete className="icon remove" />
+            </button>
           </div>
         </main>
       </Content>
@@ -262,11 +266,12 @@ const Content = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid green;
+  border: 1px solid #000;
+  margin-bottom: 1px;
 
   div {
     width: 100%;
-    border: 1px solid blue;
+    border-right: 1px solid #000;
     padding: 20px;
   }
 
@@ -286,6 +291,13 @@ const Content = styled.div`
       border-radius: 10px;
       margin: 5px;
       cursor: pointer;
+
+      button {
+        width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
   }
 
@@ -297,6 +309,11 @@ const Content = styled.div`
 
   @media (max-width: 467px) {
     display: block;
+
+    div {
+      border-right: none;
+      border-bottom: 1px solid #000;
+    }
     main {
       width: 100%;
       flex-direction: row;
