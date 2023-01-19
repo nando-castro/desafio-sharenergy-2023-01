@@ -28,7 +28,7 @@ export function Home() {
 
   const handleLogout = () => {
     const response = window.confirm(
-      "Voce tem certeza que gostaria de apagar o registro do cliente?"
+      "Confirme para sair!"
     );
 
     if (response === true) {
