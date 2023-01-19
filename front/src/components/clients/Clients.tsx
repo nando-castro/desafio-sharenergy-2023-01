@@ -259,10 +259,10 @@ const Container = styled.main`
 const Content = styled.div`
   width: 100%;
   height: auto;
-  border: 1px solid #000;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid green;
 
   div {
     width: 100%;
@@ -292,6 +292,14 @@ const Content = styled.div`
   @media (max-width: 767px) {
     main {
       width: 100px;
+    }
+  }
+
+  @media (max-width: 467px) {
+    display: block;
+    main {
+      width: 100%;
+      flex-direction: row;
     }
   }
 `;

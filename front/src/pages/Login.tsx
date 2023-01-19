@@ -87,7 +87,7 @@ export const Container = styled.main`
   justify-content: center;
   align-items: center;
 
-  background-image: linear-gradient(to right, violet, yellow);
+  background-image: linear-gradient(to right, #e750e7, blue);
 
   @media (max-width: 600px) {
   }

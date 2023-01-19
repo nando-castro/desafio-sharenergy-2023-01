@@ -25,7 +25,7 @@ export function Home() {
   }, []);
 
   return (
-    <main className="h-screen w-full flex justify-center items-center  bg-gradient-to-r from-blue-300  to-pink-500">
+    <main className="h-screen w-full flex justify-center items-center  bg-gradient-to-r from-pink-400  to-blue-600">
       <div className="w-full h-screen flex flex-col md:w-3/5 md:h-4/6 bg-white md:shadow-2xl md:rounded-2xl md:flex-none  md:flex-row">
         <div className="md:w-28 md:h-full flex md:flex-col w-full h-28 flex-row">
           <Card
