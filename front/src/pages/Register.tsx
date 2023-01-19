@@ -30,7 +30,12 @@ export function Register() {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 409) {
+          alert("O nome de usuário já existe!");
+        }
+        if (err.response.status === 422) {
+          alert("As senhas devem ser iguais!");
+        }
         setLoading(false);
       });
   }

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../components/card/Card";
 import Cats from "../components/cats/CatsHttp";
 import Clients from "../components/clients/Clients";
@@ -6,6 +7,7 @@ import Dogs from "../components/dogs/Dogs";
 import Users from "../components/users/Users";
 
 export function Home() {
+  const navigate = useNavigate();
   const [selected, setSelected] = useState("");
   let renderTab: any = {
     users: <Users />,
@@ -15,6 +17,12 @@ export function Home() {
   };
 
   let currentTab: string = selected;
+
+  useEffect(() => {
+    if (localStorage.getItem("userLogged") === null) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <main className="h-screen w-full flex justify-center items-center  bg-gradient-to-r from-blue-300  to-pink-500">

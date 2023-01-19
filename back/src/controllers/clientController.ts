@@ -17,7 +17,15 @@ export async function createClient(req: Request, res: Response) {
   res.sendStatus(201);
 }
 export async function getClients(req: Request, res: Response) {
-  const session = res.locals.session;
+  const { authorization } = req.headers;
+
+  const token = authorization?.replace("Bearer ", "");
+
+  const session = await db.collection("sessions").findOne({ token });
+
+  if (!session) {
+    return res.sendStatus(401);
+  }
 
   const clients = await db.collection("clients").find().toArray();
 
@@ -25,8 +33,6 @@ export async function getClients(req: Request, res: Response) {
 }
 export async function updateClient(req: Request, res: Response) {
   const id = req.params.id;
-  const data = req.body;
-  console.log(data);
 
   try {
     const client = await db

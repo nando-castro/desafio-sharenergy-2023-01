@@ -61,13 +61,14 @@ export async function signUp(req: Request, res: Response) {
   }: { username: string; password: string; passwordConfirm: string } = req.body;
 
   if (password !== passwordConfirm) {
-    return res.status(401).send("Senhas devem ser iguais");
+    return res.status(422).send("Senhas devem ser iguais");
   }
 
   try {
-    const userExists = await db.collection("users").findOne({ name: username });
+    const userExists = await db.collection("users").findOne({ username: username });
 
-    if (userExists) {
+    console.log(userExists);
+    if (userExists !== null) {
       return res.sendStatus(409);
     }
 

@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }: any) => {
     setUser(null);
     localStorage.removeItem("userLogged");
     window.location.reload();
-    navigate("/admin/login");
+    navigate("/");
   };
 
   return (

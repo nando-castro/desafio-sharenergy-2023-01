@@ -6,60 +6,78 @@ import Input from "../components/input/Input";
 import Loader from "../components/loading/Loader";
 import { api } from "../services/api";
 
-export function Login(){
+export function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
-    username:"",
-    password:""
-  })
+    username: "",
+    password: "",
+  });
 
   function changeInput(e: any) {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
 
-  function handleLogin(e: any){
+  function handleLogin(e: any) {
     e.preventDefault();
     setLoading(true);
 
-    api.post("signin", {...user}).then((res) => {
-      const person = {
-        token: res.data.token,
-      }
+    api
+      .post("signin", { ...user })
+      .then((res) => {
+        const person = {
+          token: res.data.token,
+        };
 
-      localStorage.setItem("userLogged", JSON.stringify(person));
+        localStorage.setItem("userLogged", JSON.stringify(person));
 
-      navigate("/home");
-      setLoading(false);
-    }).catch((err) => {
-      console.log(err);
-      setLoading(false);
-    })
-
+        navigate("/home");
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   }
-  
-    return (
+
+  return (
     <Container>
       <Form>
         <p>Login</p>
-        <Input type={"text"} placeholder={"Nome de usuário"} value={user.username} name={"username"} onChange={changeInput}/>
-        <Input type={"password"} placeholder={"Senha"} value={user.password} name={"password"} onChange={changeInput} />
-        <Button type={"submit"} text={"Fazer login"} destiny={""} action={handleLogin} />
+        <Input
+          type={"text"}
+          placeholder={"Nome de usuário"}
+          value={user.username}
+          name={"username"}
+          onChange={changeInput}
+        />
+        <Input
+          type={"password"}
+          placeholder={"Senha"}
+          value={user.password}
+          name={"password"}
+          onChange={changeInput}
+        />
+        <Button
+          type={"submit"}
+          text={"Fazer login"}
+          destiny={""}
+          action={handleLogin}
+        />
         <span>
           <Link to="/register">Novo por aqui? Clique aqui e Cadastre-se</Link>
         </span>
       </Form>
       {loading ? (
-          <>
-            <Loader />
-          </>
-        ) : (
-          <></>
-        )}
+        <>
+          <Loader />
+        </>
+      ) : (
+        <></>
+      )}
     </Container>
-    );
+  );
 }
-
 
 export const Container = styled.main`
   width: 100%;
@@ -98,12 +116,11 @@ export const Form = styled.form`
     margin-top: 30px;
   }
 
-
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     width: 100%;
     height: 100%;
     border-radius: 0;
   }
 
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 `;

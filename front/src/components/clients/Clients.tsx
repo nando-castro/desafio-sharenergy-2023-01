@@ -4,9 +4,11 @@ import { MdDelete, MdEdit, MdAddCircle } from "react-icons/md";
 import { api } from "../../services/api";
 import FormClient from "../form/FormClient";
 import Loader from "../loading/Loader";
+import { useAuth } from "../../context/auth";
 
 export default function Clients() {
   const [text, setText] = useState(false);
+  const { logout }: any = useAuth();
   const [clients, setClients] = useState([]);
   const [clientUpdate, setClientUpdate] = useState({
     name: "",
@@ -33,6 +35,10 @@ export default function Clients() {
         })
         .catch((err) => {
           console.log(err);
+          if (err.response.status === 401) {
+            alert("Ocorreu um erro! Por favor, realize login novamente!");
+            logout();
+          }
         });
     }
 
@@ -64,6 +70,10 @@ export default function Clients() {
           setLoading(false);
         })
         .catch((err) => {
+          if (err.response.status === 401) {
+            alert("Ocorreu um erro! Por favor, realize login novamente!");
+            logout();
+          }
           setLoading(false);
         });
     }

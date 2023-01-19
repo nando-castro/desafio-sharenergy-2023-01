@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useAuth } from "../../context/auth";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
