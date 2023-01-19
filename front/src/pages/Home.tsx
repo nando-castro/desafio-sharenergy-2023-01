@@ -5,9 +5,11 @@ import Cats from "../components/cats/CatsHttp";
 import Clients from "../components/clients/Clients";
 import Dogs from "../components/dogs/Dogs";
 import Users from "../components/users/Users";
+import { useAuth } from "../context/auth";
 
 export function Home() {
   const navigate = useNavigate();
+  const { logout }: any = useAuth();
   const [selected, setSelected] = useState("");
   let renderTab: any = {
     users: <Users />,
@@ -24,6 +26,16 @@ export function Home() {
     }
   }, []);
 
+  const handleLogout = () => {
+    const response = window.confirm(
+      "Voce tem certeza que gostaria de apagar o registro do cliente?"
+    );
+
+    if (response === true) {
+      logout();
+    }
+  };
+
   return (
     <main className="h-screen w-full flex justify-center items-center  bg-gradient-to-r from-pink-400  to-blue-600">
       <div className="w-full h-screen flex flex-col md:w-3/5 md:h-4/6 bg-white md:shadow-2xl md:rounded-2xl md:flex-none  md:flex-row">
@@ -35,11 +47,8 @@ export function Home() {
           />
           <Card text={"HTTP Cat"} action={() => setSelected("cats")} />
           <Card text={"Random Dog"} action={() => setSelected("dogs")} />
-          <Card
-            text={"CRUD Clientes"}
-            radius={"0 0 50px 8px"}
-            action={() => setSelected("clients")}
-          />
+          <Card text={"CRUD Clientes"} action={() => setSelected("clients")} />
+          <Card text={"Exit"} radius={"0 0 50px 8px"} action={handleLogout} />
         </div>
         <div className="w-full h-full bg-white rounded-r-lg">
           {currentTab !== "" ? renderTab[currentTab] : <Users />}
