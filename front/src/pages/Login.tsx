@@ -35,7 +35,16 @@ export function Login() {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 401) {
+          alert(
+            "Por favor, preencha o nome de usuário e a senha corretamente!"
+          );
+        }
+        if (err.response.status === 404) {
+          alert(
+            "Por favor, verifique se o nome de usuário e a senha estão corretos e tente novamente!"
+          );
+        }
         setLoading(false);
       });
   }

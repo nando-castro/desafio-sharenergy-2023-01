@@ -30,11 +30,13 @@ export function Register() {
         setLoading(false);
       })
       .catch((err) => {
+        if (err.response.status === 422) {
+          alert(
+            "Preencha as informações corretamente! As senhas devem ser iguais!"
+          );
+        }
         if (err.response.status === 409) {
           alert("O nome de usuário já existe!");
-        }
-        if (err.response.status === 422) {
-          alert("As senhas devem ser iguais!");
         }
         setLoading(false);
       });
