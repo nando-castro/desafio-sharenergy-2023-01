@@ -9,6 +9,9 @@ import { api } from "../services/api";
 export function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [remember, setRemember] = useState({
+    value: false,
+  });
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -18,6 +21,10 @@ export function Login() {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
 
+  function changeInputChecked(e: any) {
+    setRemember({ value: e.target.checked });
+  }
+
   function handleLogin(e: any) {
     e.preventDefault();
     setLoading(true);
@@ -25,6 +32,12 @@ export function Login() {
     api
       .post("signin", { ...user })
       .then((res) => {
+        if (remember.value === false) {
+          window.onbeforeunload = function () {
+            localStorage.removeItem("userLogged");
+          };
+        }
+
         const person = {
           token: res.data.token,
         };
@@ -49,6 +62,13 @@ export function Login() {
       });
   }
 
+  // console.log(remember);
+
+  // const handleRemember = () => {
+  //   setRemember(true);
+  //   console.log(remember);
+  // };
+
   return (
     <Container>
       <Form>
@@ -67,6 +87,18 @@ export function Login() {
           name={"password"}
           onChange={changeInput}
         />
+        <div className="remember">
+          <Input
+            width={"20px"}
+            height={"20px"}
+            type="checkbox"
+            id="remember"
+            name="remember"
+            value={"remember"}
+            onChange={changeInputChecked}
+          />
+          <label>Remember me</label>
+        </div>
         <Button
           type={"submit"}
           text={"Fazer login"}
@@ -97,6 +129,13 @@ export const Container = styled.main`
   align-items: center;
 
   background-image: linear-gradient(to right, #e750e7, blue);
+
+  .remember {
+    display: flex;
+    input {
+      margin-right: 10px;
+    }
+  }
 
   @media (max-width: 600px) {
   }
