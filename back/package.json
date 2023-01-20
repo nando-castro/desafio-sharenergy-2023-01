@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/src/server.ts",
-    "dev": "nodemon src/server.ts"
+    "start": "npm run build && node dist/databases/seed.js && node dist/server.js",
+    "dev": "nodemon src/server.ts",
+    "seed": "ts-node src/databases/seed.ts",
+    "seed:run": "npm run seed && nodemon src/server.ts"
   },
   "keywords": [],
   "author": "",
