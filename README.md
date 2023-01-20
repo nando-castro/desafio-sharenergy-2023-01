@@ -166,15 +166,20 @@ Instale as dependências do projeto:
   npm install
 ```
 
+Você pode iniciar o projeto com apenas o seguinte comando:
+```
+npm start
+```
+**Ou siga os passos abaixo:**
+
+Execute o seed do projeto:
+```bash
+  npm run seed
+```
+
 Para iniciar o projeto é necessário dar o seguinte comando:
 ```
 npm run dev
-```
-
-ou 
-
-```
-npm start
 ```
 
 ## FRONT-END
